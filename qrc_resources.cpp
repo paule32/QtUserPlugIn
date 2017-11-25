@@ -1,11 +1,16 @@
 /****************************************************************************
 ** Resource object code
 **
+<<<<<<< HEAD
 ** Created by: The Resource Compiler for Qt version 5.10.0
+=======
+** Created by: The Resource Compiler for Qt version 5.8.0
+>>>>>>> e2a7ce39b584fb33693cb3564fd80e80e21114c1
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
+<<<<<<< HEAD
 static const unsigned char qt_resource_data[] = {
   // /home/jens/Projekte/RechnerPlugin/pics/icon.png
   0x0,0x0,0x58,0x55,
@@ -1454,6 +1459,8 @@ static const unsigned char qt_resource_struct[] = {
 
 };
 
+=======
+>>>>>>> e2a7ce39b584fb33693cb3564fd80e80e21114c1
 #ifdef QT_NAMESPACE
 #  define QT_RCC_PREPEND_NAMESPACE(name) ::QT_NAMESPACE::name
 #  define QT_RCC_MANGLE_NAMESPACE0(x) x
@@ -1470,10 +1477,13 @@ static const unsigned char qt_resource_struct[] = {
 namespace QT_NAMESPACE {
 #endif
 
+<<<<<<< HEAD
 bool qRegisterResourceData(int, const unsigned char *, const unsigned char *, const unsigned char *);
 
 bool qUnregisterResourceData(int, const unsigned char *, const unsigned char *, const unsigned char *);
 
+=======
+>>>>>>> e2a7ce39b584fb33693cb3564fd80e80e21114c1
 #ifdef QT_NAMESPACE
 }
 #endif
@@ -1481,16 +1491,22 @@ bool qUnregisterResourceData(int, const unsigned char *, const unsigned char *, 
 int QT_RCC_MANGLE_NAMESPACE(qInitResources_resources)();
 int QT_RCC_MANGLE_NAMESPACE(qInitResources_resources)()
 {
+<<<<<<< HEAD
     QT_RCC_PREPEND_NAMESPACE(qRegisterResourceData)
         (0x2, qt_resource_struct, qt_resource_name, qt_resource_data);
+=======
+>>>>>>> e2a7ce39b584fb33693cb3564fd80e80e21114c1
     return 1;
 }
 
 int QT_RCC_MANGLE_NAMESPACE(qCleanupResources_resources)();
 int QT_RCC_MANGLE_NAMESPACE(qCleanupResources_resources)()
 {
+<<<<<<< HEAD
     QT_RCC_PREPEND_NAMESPACE(qUnregisterResourceData)
        (0x2, qt_resource_struct, qt_resource_name, qt_resource_data);
+=======
+>>>>>>> e2a7ce39b584fb33693cb3564fd80e80e21114c1
     return 1;
 }
 
