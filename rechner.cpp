@@ -91,8 +91,9 @@ void Rechner::AddNumPadElement(struct elements pad)
     btn->sizePolicy().hasHeightForWidth());
     btn->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-    int fontsize = 0;
+    connect(btn, SIGNAL(clicked()), this, SLOT(btnOnClicked()));
 
+    int fontsize = 0;
     if (btn->text() == "modulo"
     ||  btn->text() == "Wurzel^2" || btn->text() == "Prozent"
     ||  btn->text() == "Wurzel^n" || btn->text() == "Promille")
@@ -132,8 +133,10 @@ Rechner::Rechner(QWidget *parent) : QWidget(parent)
     ausgabeTextEdit = new QPlainTextEdit(parent);
     ausgabeTextEdit->move(5,5);
     ausgabeTextEdit->resize(1024, 70);
+
     ausgabeTextEdit->setFont(QFont("Arial",10));
     ausgabeTextEdit->setPlainText("Bitte Eingabe machen");
+    ausgabeTextEdit->setObjectName("ausgabeTextEdit");
 
     upperLayout->addWidget(ausgabeTextEdit);
 
@@ -188,6 +191,7 @@ Rechner::Rechner(QWidget *parent) : QWidget(parent)
     comboBox->addItem("f(x)");
     comboBox->addItem("Ganzzahliger Anteil");
     comboBox->addItem("Gebrochener Anteil");
+
     comboBox->addItem("Runden");
     comboBox->addItem("Abrunden");
     comboBox->addItem("Aufrunden");
@@ -207,29 +211,10 @@ Rechner::Rechner(QWidget *parent) : QWidget(parent)
 
     mainLayout->addLayout(upperLayout);
     mainLayout->addLayout(lowerLayout);
-
-    retranslateUi(parent);
 }
-
-void Rechner::retranslateUi(QWidget *parent)
-{
-    connect(ZahlButton1, SIGNAL(clicked()), this, SLOT(btn1Clicked()));
-    connect(ZahlButton2, SIGNAL(clicked()), this, SLOT(btn2Clicked()));
-    connect(ZahlButton3, SIGNAL(clicked()), this, SLOT(btn3Clicked()));
-
-    connect(ZahlButton4, SIGNAL(clicked()), this, SLOT(btn4Clicked()));
-    connect(ZahlButton5, SIGNAL(clicked()), this, SLOT(btn5Clicked()));
-    connect(ZahlButton6, SIGNAL(clicked()), this, SLOT(btn6Clicked()));
-
-    connect(ZahlButton7, SIGNAL(clicked()), this, SLOT(btn7Clicked()));
-    connect(ZahlButton8, SIGNAL(clicked()), this, SLOT(btn8Clicked()));
-    connect(ZahlButton9, SIGNAL(clicked()), this, SLOT(btn9Clicked()));
-
-    connect(ZahlButton0, SIGNAL(clicked()), this, SLOT(btn0Clicked()));
 
     //connect(ZahlButtonResult, SIGNAL(clicked()), this, SLOT(btnResultClicked()));
     //connect(ZahlButtonKomma, SIGNAL(clicked()), this, SLOT(btnKommaClicked()));
-}
 
 void Rechner::btnKommaClicked()
 {
@@ -265,112 +250,20 @@ void Rechner::btnResultClicked()
     mpf_clear(z);
 }
 
-void Rechner::btn1Clicked()
+void Rechner::btnOnClicked()
 {
     QString arg;
-    if (!first_input) {
-        first_input = true;
-        plainTextEdit->document()->clear();}
-    arg  = plainTextEdit->document()->toPlainText();
-    arg += "1";
-    plainTextEdit->document()->setPlainText(arg);
-}
 
-void Rechner::btn2Clicked()
-{
-    QString arg;
-    if (!first_input) {
-        first_input = true;
-        plainTextEdit->document()->clear();}
-    arg  = plainTextEdit->document()->toPlainText();
-    arg += "2";
-    plainTextEdit->document()->setPlainText(arg);
-}
+    QPlainTextEdit *ptr = parentWidget()->findChildren("ausgabeTextEdit");
+    QPushButton    *btn;
 
-void Rechner::btn3Clicked()
-{
-    QString arg;
-    if (!first_input) {
-        first_input = true;
-        plainTextEdit->document()->clear();}
-    arg  = plainTextEdit->document()->toPlainText();
-    arg += "3";
-    plainTextEdit->document()->setPlainText(arg);
-}
+    QString sbtn = btn->property("clickname").toString();
 
-void Rechner::btn4Clicked()
-{
-    QString arg;
     if (!first_input) {
-        first_input = true;
-        plainTextEdit->document()->clear();}
-    arg  = plainTextEdit->document()->toPlainText();
-    arg += "4";
-    plainTextEdit->document()->setPlainText(arg);
-}
+    first_input = true;
+    ptr->document()->clear();}
 
-void Rechner::btn5Clicked()
-{
-    QString arg;
-    if (!first_input) {
-        first_input = true;
-        plainTextEdit->document()->clear();}
-    arg  = plainTextEdit->document()->toPlainText();
-    arg += "5";
-    plainTextEdit->document()->setPlainText(arg);
-}
-
-void Rechner::btn6Clicked()
-{
-    QString arg;
-    if (!first_input) {
-        first_input = true;
-        plainTextEdit->document()->clear();}
-    arg  = plainTextEdit->document()->toPlainText();
-    arg += "6";
-    plainTextEdit->document()->setPlainText(arg);
-}
-
-void Rechner::btn7Clicked()
-{
-    QString arg;
-    if (!first_input) {
-        first_input = true;
-        plainTextEdit->document()->clear();}
-    arg  = plainTextEdit->document()->toPlainText();
-    arg += "7";
-    plainTextEdit->document()->setPlainText(arg);
-}
-
-void Rechner::btn8Clicked()
-{
-    QString arg;
-    if (!first_input) {
-        first_input = true;
-        plainTextEdit->document()->clear();}
-    arg  = plainTextEdit->document()->toPlainText();
-    arg += "8";
-    plainTextEdit->document()->setPlainText(arg);
-}
-
-void Rechner::btn9Clicked()
-{
-    QString arg;
-    if (!first_input) {
-        first_input = true;
-        plainTextEdit->document()->clear();}
-    arg  = plainTextEdit->document()->toPlainText();
-    arg += "9";
-    plainTextEdit->document()->setPlainText(arg);
-}
-
-void Rechner::btn0Clicked()
-{
-    QString arg;
-    if (!first_input) {
-        first_input = true;
-        plainTextEdit->document()->clear();}
-    arg  = plainTextEdit->document()->toPlainText();
-    arg += "0";
-    plainTextEdit->document()->setPlainText(arg);
+    arg  = ptr->document()->toPlainText();
+    arg += sbtn;
+    ptr->document()->setPlainText(arg);
 }
