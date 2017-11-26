@@ -38,7 +38,7 @@ LIBS += \
     -lUtils \
     -lgmp
 
-QT += designer widgets
+QT += designer widgets core
 
 FORMS += \
     form.ui \
@@ -51,5 +51,3 @@ RESOURCES += \
 
 include(rechner.pri)
 
-target.path += /home/jens/Projekte/RechnerPlugin
-INSTALLS += target

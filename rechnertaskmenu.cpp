@@ -25,10 +25,11 @@ RechnerTaskMenu::RechnerTaskMenu(
 
 void RechnerTaskMenu::onClicked()
 {
+    /*
     if (qobject_cast<QPushButton*>(rechner->ZahlButton1)->underMouse() == true) {
         paintElement = rechner->ZahlButton1;
         QMessageBox::information(0,"qqqqq","1212212");
-    }
+    }*/
 
     RechnerPropertyPage p(rechner);
     p.exec();

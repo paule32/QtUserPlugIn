@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="Rechner" name="rechner">
+  <widget class="Rechner" name="rechner" native="true">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -23,12 +23,32 @@
     </rect>
    </property>
   </widget>
+  <widget class="QTabWidget" name="tabWidget">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>120</y>
+     <width>123</width>
+     <height>80</height>
+    </rect>
+   </property>
+   <widget class="QWidget" name="tab">
+    <attribute name="title">
+     <string>Tab 1</string>
+    </attribute>
+   </widget>
+   <widget class="QWidget" name="tab_2">
+    <attribute name="title">
+     <string>Tab 2</string>
+    </attribute>
+   </widget>
+  </widget>
  </widget>
  <customwidgets>
   <customwidget>
    <class>Rechner</class>
    <extends>QWidget</extends>
-   <header>rechner.h</header>
+   <header>../RechnerPlugin/rechner.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
