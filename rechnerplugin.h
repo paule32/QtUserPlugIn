@@ -1,8 +1,7 @@
 #ifndef RECHNERCLASSPLUGIN_H
 #define RECHNERCLASSPLUGIN_H
 
-#include <QDesignerCustomWidgetInterface>
-#include <QDesignerFormWindowManagerInterface>
+#include <QtUiPlugin/QDesignerCustomWidgetInterface>
 
 class RechnerPlugin : public QObject, public QDesignerCustomWidgetInterface
 {

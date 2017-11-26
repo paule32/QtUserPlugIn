@@ -15,10 +15,33 @@
 #include <QtWidgets/QRadioButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QTabWidget>
+#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QVBoxLayout>
+#include <QtCore/QPoint>
+#include <QString>
+
+#include <QPalette>
 
 #include <QtDesigner/QtDesigner>
 #include <QtWidgets/QWidget>
+
+typedef struct  {
+    QWidget     * parent;
+    QObject * object;
+    QGridLayout * grid;
+    QString     name;
+    QPoint      * ptA;
+    QPoint      * ptB;
+} TPadObject;
+
+struct elements {
+    int x1; int y1;
+    int x2; int y2;
+    QString name;
+    QWidget *parent;
+    QPushButton *btn;
+    QGridLayout *grid;
+};
 
 class QDESIGNER_WIDGET_EXPORT Rechner: public QWidget
 {
@@ -39,12 +62,15 @@ public slots:
     void btnKommaClicked();
 
 public:
+    void AddNumPadElement(struct elements *pad);
+    TPadObject *numpadobj;
+
     QVBoxLayout *verticalLayout_2;
     QVBoxLayout *verticalLayout;
     QPlainTextEdit *plainTextEdit;
     QVBoxLayout *verticalLayout_6;
     QHBoxLayout *horizontalLayout;
-    QGridLayout *gridLayout;
+
     QPushButton *ZahlButton4;
     QPushButton *ZahlButton3;
     QPushButton *ZahlButton2;
@@ -90,9 +116,14 @@ public:
     QWidget *widget_2;
     QVBoxLayout *verticalLayout_8;
     QPlainTextEdit *plainTextEdit_2;
-    QGridLayout *gridLayout_4;
-    QTabWidget *tabWidget;
-    QWidget *tab;
+
+    QGridLayout * numpadGridLayout;
+    QGridLayout * StandardTabLayout;
+
+    QTabWidget  * StandardTabWidget;
+    QWidget     * StandardTab;
+    QWidget     * AllgemeinTab;
+
     QVBoxLayout *verticalLayout_5;
     QHBoxLayout *horizontalLayout_2;
     QGridLayout *gridLayout_5;
@@ -101,7 +132,7 @@ public:
     QPushButton *ZahlButtonModulo;
     QPushButton *ZahlButtonMul;
     QPushButton *ZahlButtonDiv;
-    QWidget *tab_2;
+
     QWidget *widget_3;
     QFormLayout *formLayout;
     QGridLayout *gridLayout_6;
