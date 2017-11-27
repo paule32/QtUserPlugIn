@@ -21,6 +21,7 @@
 
 const char fontName[] = "Arial";
 
+extern bool mathParser(char* );
 struct elements element[44] = {
     // Zahlen
     { 0, 0, 1, 1, "1",          fontName, nullptr, nullptr, nullptr },
@@ -99,6 +100,8 @@ void Rechner::AddNumPadElement(struct elements pad)
     ||  btn->text() == "Wurzel^n" || btn->text() == "Promille")
     fontsize = 12; else
     fontsize = 18;
+
+    btn->setProperty("clickname",btn->text());
 
     QFont f;
     f.setBold(true);
@@ -213,22 +216,9 @@ Rechner::Rechner(QWidget *parent) : QWidget(parent)
     mainLayout->addLayout(lowerLayout);
 }
 
-    //connect(ZahlButtonResult, SIGNAL(clicked()), this, SLOT(btnResultClicked()));
-    //connect(ZahlButtonKomma, SIGNAL(clicked()), this, SLOT(btnKommaClicked()));
-
-void Rechner::btnKommaClicked()
+void Rechner::btnResultClicked(QString aufgabe)
 {
-    QString arg;
-    if (!first_input) {
-        first_input = true;
-        plainTextEdit->document()->clear();}
-    arg  = plainTextEdit->document()->toPlainText();
-    arg += ".";
-    plainTextEdit->document()->setPlainText(arg);
-}
-
-void Rechner::btnResultClicked()
-{
+    Q_UNUSED(aufgabe);
     char buffer[100];
 
     mpf_t x, y, z;
@@ -242,8 +232,12 @@ void Rechner::btnResultClicked()
 
     mpf_add(z,x,y);
 
-    gmp_sprintf(buffer,"==> %F.f", z);
-    plainTextEdit->document()->setPlainText(buffer);
+    gmp_sprintf(buffer,"%F.f", z);
+    mathParser(buffer);
+
+    QPlainTextEdit *ptr = parentWidget()->findChild<QPlainTextEdit *>("ausgabeTextEdit");
+    ptr->clear();
+    ptr->setPlainText(buffer);
 
     mpf_clear(x);
     mpf_clear(y);
@@ -254,14 +248,19 @@ void Rechner::btnOnClicked()
 {
     QString arg;
 
-    QPlainTextEdit *ptr = parentWidget()->findChildren("ausgabeTextEdit");
-    QPushButton    *btn;
+    QPlainTextEdit *ptr = parentWidget()->findChild<QPlainTextEdit *>("ausgabeTextEdit");
+    QPushButton    *btn = qobject_cast<QPushButton *>(sender());
+    QString  sbtn = btn->property("clickname").toString();
 
-    QString sbtn = btn->property("clickname").toString();
+    if (sbtn == "=") {
+        btnResultClicked(ptr->toPlainText());
+        return;
+    }
 
     if (!first_input) {
-    first_input = true;
-    ptr->document()->clear();}
+        first_input = true;
+        ptr->document()->clear();
+    }
 
     arg  = ptr->document()->toPlainText();
     arg += sbtn;

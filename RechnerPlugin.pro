@@ -8,7 +8,8 @@ HEADERS     = \
     rechnertaskmenu.h \
     rechnerdialog.h \
     rechnerpropertypage.h \
-    matheconsole.h
+    matheconsole.h \
+    syntax.h
 
 SOURCES     = \
     rechnerplugin.cpp \
@@ -16,7 +17,8 @@ SOURCES     = \
     rechnertaskmenu.cpp \
     rechnerdialog.cpp \
     rechnerpropertypage.cpp \
-    matheconsole.cpp
+    matheconsole.cpp \
+    syntax.cpp
 
 INCLUDEPATH    += /home/jens/Projekte/RechnerPlugin
 INCLUDEPATH    += /home/jens/qtcreator-4.4.1/qt-creator/src/plugins
@@ -36,7 +38,8 @@ LIBS += \
     -lAggregation \
     -lExtensionSystem \
     -lUtils \
-    -lgmp
+    -lgmp \
+    -lstdc++
 
 QT += designer widgets core
 

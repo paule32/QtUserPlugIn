@@ -46,7 +46,7 @@ public slots:
 
 public:
     void AddNumPadElement(struct elements pad);
-    void btnResultClicked();
+    void btnResultClicked(QString);
 
     bool first_input;
 };
