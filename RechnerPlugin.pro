@@ -3,22 +3,28 @@ TARGET      = rechnerplugin
 TEMPLATE    = lib
 
 HEADERS     = \
+    rechner.h \
     rechnerplugin.h \
     rechnertaskmenufactory.h \
     rechnertaskmenu.h \
     rechnerdialog.h \
     rechnerpropertypage.h \
     matheconsole.h \
-    syntax.h
+    syntax.h \
+    ausgabetextedit.h \
+    wurzelbox.h
 
 SOURCES     = \
+    rechner.cpp \
     rechnerplugin.cpp \
     rechnertaskmenufactory.cpp \
     rechnertaskmenu.cpp \
     rechnerdialog.cpp \
     rechnerpropertypage.cpp \
     matheconsole.cpp \
-    syntax.cpp
+    syntax.cpp \
+    ausgabetextedit.cpp \
+    wurzelbox.cpp
 
 INCLUDEPATH    += /home/jens/Projekte/RechnerPlugin
 INCLUDEPATH    += /home/jens/qtcreator-4.4.1/qt-creator/src/plugins
@@ -51,6 +57,4 @@ FORMS += \
 RESOURCES += \
     resources.qrc
 
-
-include(rechner.pri)
 

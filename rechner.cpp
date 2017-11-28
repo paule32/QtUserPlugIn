@@ -7,21 +7,22 @@
 #include <QLayout>
 #include <QHBoxLayout>
 #include <QGridLayout>
+#include <QWidgetList>
 
 #include <coreplugin/coreconstants.h>
 #include <coreplugin/modemanager.h>
 
+#include "ausgabetextedit.h"
+#include "matheconsole.h"
 #include "rechner.h"
 
-#include <gmp.h>
-#include <gmpxx.h>
+#include "wurzelbox.h"
 
 #define ZAHLEN_E     12
 #define OPERATOREN_E  1
 
 const char fontName[] = "Arial";
 
-extern bool mathParser(char* );
 struct elements element[44] = {
     // Zahlen
     { 0, 0, 1, 1, "1",          fontName, nullptr, nullptr, nullptr },
@@ -84,6 +85,9 @@ struct elements element[44] = {
     { 12, 1, 1, 1, "AC",        fontName, nullptr, nullptr, nullptr }
 };
 
+// container for rechner components ...
+QList<QWidget *> cmp_list;
+
 void Rechner::AddNumPadElement(struct elements pad)
 {
     QPushButton *btn = new QPushButton(pad.name,pad.parent);
@@ -132,14 +136,13 @@ Rechner::Rechner(QWidget *parent) : QWidget(parent)
     QVBoxLayout * upperLayout = new QVBoxLayout;
     QHBoxLayout * lowerLayout = new QHBoxLayout;
 
-    QPlainTextEdit  *
-    ausgabeTextEdit = new QPlainTextEdit(parent);
-    ausgabeTextEdit->move(5,5);
-    ausgabeTextEdit->resize(1024, 70);
+    AusgabeTextEdit *
+    ausgabeTextEdit = new AusgabeTextEdit(parentWidget());
 
+    /*
     ausgabeTextEdit->setFont(QFont("Arial",10));
     ausgabeTextEdit->setPlainText("Bitte Eingabe machen");
-    ausgabeTextEdit->setObjectName("ausgabeTextEdit");
+    */
 
     upperLayout->addWidget(ausgabeTextEdit);
 
@@ -216,53 +219,69 @@ Rechner::Rechner(QWidget *parent) : QWidget(parent)
     mainLayout->addLayout(lowerLayout);
 }
 
-void Rechner::btnResultClicked(QString aufgabe)
+void Rechner::btnResultClicked()
 {
-    Q_UNUSED(aufgabe);
-    char buffer[100];
+    int xold = 0;
+    for (int i = 0; i < cmp_list.count(); i++) {
+        if (dynamic_cast<WurzelBox *>(cmp_list.at(i))) {
+            xold = dynamic_cast<WurzelBox *>(cmp_list.at(i))->x();
+            if (i >= i+1) {
+                if (dynamic_cast<WurzelBox *>(cmp_list.at(i+1))) {
+                   int xnew = dynamic_cast<WurzelBox *>(cmp_list.at(i+1))->x();
+                   if (xnew >= xold) {
+                       try {
+                           dynamic_cast<WurzelBox *>(cmp_list.at(i+1))->move(xold + 10 +
+                           dynamic_cast<WurzelBox *>(cmp_list.at(i+1))->width(), 40);
+                           xold = dynamic_cast<WurzelBox *>(cmp_list.at(i))->width();
+                       } catch (...) {
+                           dynamic_cast<WurzelBox *>(cmp_list.at(i))->move(xold + 10 +
+                           dynamic_cast<WurzelBox *>(cmp_list.at(i))->width(), 25);
+                           if (i > 0)
+                           xold = dynamic_cast<WurzelBox *>(cmp_list.at(i-1))->width(); else
+                           xold = dynamic_cast<WurzelBox *>(cmp_list.at( 0 ))->width();
+                       }
+                   }
+                }
+            }   else {
+                if (dynamic_cast<WurzelBox *>(cmp_list.at(i))) {
+                   int xnew = dynamic_cast<WurzelBox *>(cmp_list.at(i))->x();
+                   if (xnew >= xold) {
+                       dynamic_cast<WurzelBox *>(cmp_list.at(i))->move(xold + 10 +
+                       dynamic_cast<WurzelBox *>(cmp_list.at(i))->width(), 20);
+                       xold += dynamic_cast<WurzelBox *>(cmp_list.at(i))->width();
+                   }
+                }
+            }
+        }
+    }
 
-    mpf_t x, y, z;
 
-    mpf_init2(x,6);
-    mpf_init2(y,6);
-    mpf_init2(z,6);
+    MatheConsole *math = new MatheConsole(
+    this->parentWidget());
+    math->calc();
 
-    mpf_set_d(x,100.220);
-    mpf_set_d(y,200.010);
-
-    mpf_add(z,x,y);
-
-    gmp_sprintf(buffer,"%F.f", z);
-    mathParser(buffer);
-
-    QPlainTextEdit *ptr = parentWidget()->findChild<QPlainTextEdit *>("ausgabeTextEdit");
-    ptr->clear();
-    ptr->setPlainText(buffer);
-
-    mpf_clear(x);
-    mpf_clear(y);
-    mpf_clear(z);
+    delete math;
 }
 
 void Rechner::btnOnClicked()
 {
     QString arg;
 
-    QPlainTextEdit *ptr = parentWidget()->findChild<QPlainTextEdit *>("ausgabeTextEdit");
-    QPushButton    *btn = qobject_cast<QPushButton *>(sender());
+    AusgabeTextEdit *ptr = parentWidget()->findChild<
+    AusgabeTextEdit *>("ausgabeTextEdit");
+
+    QPushButton     *btn = qobject_cast<QPushButton *>(sender());
     QString  sbtn = btn->property("clickname").toString();
 
     if (sbtn == "=") {
-        btnResultClicked(ptr->toPlainText());
+        btnResultClicked();
         return;
     }
 
-    if (!first_input) {
+    if (first_input == false) {
         first_input = true;
-        ptr->document()->clear();
     }
 
-    arg  = ptr->document()->toPlainText();
-    arg += sbtn;
-    ptr->document()->setPlainText(arg);
+    WurzelBox * wbox = new WurzelBox(ptr);
+    cmp_list << wbox ;
 }

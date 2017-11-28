@@ -18,6 +18,7 @@
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QVBoxLayout>
 #include <QtCore/QPoint>
+#include <QList>
 #include <QString>
 
 #include <QPalette>
@@ -46,7 +47,7 @@ public slots:
 
 public:
     void AddNumPadElement(struct elements pad);
-    void btnResultClicked(QString);
+    void btnResultClicked();
 
     bool first_input;
 };

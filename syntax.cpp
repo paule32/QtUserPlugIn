@@ -162,11 +162,20 @@ namespace rechnerParser
     {
         typedef void result_type;
 
-        void operator()(int const value)
+        void operator()(struct nil nop) const
+        {
+            cout << "nop" << endl;
+        }
+        void operator()(int const value) const
         {
             cout << "const int = " << value << endl;
             dast = value;
             cout << dast.expr.type().name() << endl;
+        }
+
+        void operator()(const std::string st) const
+        {
+            cout << "const std::string = " << st << endl;
         }
 
         void operator()(expression_ast const& ast) const
@@ -348,7 +357,7 @@ bool mathParser(char *text)
     rechnerParser::ast_print  printer;
     if (r == true) {
         QMessageBox::information(0,"math parser","SUCCESS");
-        printer(rechnerParser::dast);
+        //printer(rechnerParser::dast);
         return true;
     }   else {
         QMessageBox::information(0,"math parser","ERROR");

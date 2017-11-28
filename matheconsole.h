@@ -3,20 +3,24 @@
 
 #include <QObject>
 #include <QWidget>
-#include <QProcess>
+
+#include "ausgabetextedit.h"
 
 class MatheConsole
 {
 public:
     MatheConsole();
+    MatheConsole(QWidget *prev = 0);
 
-public slots:
-   void go();
-   void ready();
-   void finish();
+    bool calc(void);
+
+    void   setBuffer(char *);
+    char * result() const { return buffer; }
 
 private:
-     QProcess prc;
+    char * buffer;
+    QWidget * parent;
+    AusgabeTextEdit * output;
 };
 
 #endif // MATHECONSOLE_H
